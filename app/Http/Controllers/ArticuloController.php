@@ -92,7 +92,7 @@ class ArticuloController extends Controller
     {
         $articulo = Articulo::findOrFail($id);
         $categorias = DB::table('categoria')->where('condicion','=','1')->get();
-        return view("almacen.articulo.edit", ["articulo"=>$articulo, "categoria"=>$categorias]);
+        return view("almacen.articulo.edit", ["articulo"=>$articulo, "categorias"=>$categorias]);
 
     }
 
