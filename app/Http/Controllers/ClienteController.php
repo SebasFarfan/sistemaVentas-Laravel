@@ -22,7 +22,7 @@ class ClienteController extends Controller
             $personas=DB::table('persona')
             ->where('nombre','LIKE', '%'.$query.'%')
             ->where('tipo_persona','=','Cliente')
-            ->orwhere('num_documento','=','%'.$query.'%')
+            ->orwhere('nro_documento','LIKE','%'.$query.'%')
             ->where('tipo_persona','=','Cliente')
             ->orderBy('idPersona','desc')
             ->paginate(7);
@@ -53,7 +53,7 @@ class ClienteController extends Controller
         $persona->tipo_persona='Cliente';
         $persona->nombre=$request->get('nombre');
         $persona->tipo_documento=$request->get('tipo_documento');
-        $persona->num_documento=$request->get('num_documento');
+        $persona->nro_documento=$request->get('nro_documento');
         $persona->direccion=$request->get('direccion');
         $persona->telefono=$request->get('telefono');
         $persona->email=$request->get('email');
@@ -95,7 +95,7 @@ class ClienteController extends Controller
         $persona = Persona::findOrFail($id);
         $persona->nombre=$request->get('nombre');
         $persona->tipo_documento=$request->get('tipo_documento');
-        $persona->num_documento=$request->get('num_documento');
+        $persona->nro_documento=$request->get('nro_documento');
         $persona->direccion=$request->get('direccion');
         $persona->telefono=$request->get('telefono');
         $persona->email=$request->get('email');
