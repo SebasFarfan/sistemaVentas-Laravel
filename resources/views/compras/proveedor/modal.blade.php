@@ -1,5 +1,5 @@
 <div class="modal fade modal-slide-in-right" aria-hidden="true" role="dialog" tabindex="-1" id="modal-delete-{{$persona->idPersona}}">
-    {!! Form::open(array('action'=>array('ClienteController@destroy', $persona->idPersona))) !!}
+    {!! Form::open(array('action'=>array('ProveedorController@destroy', $persona->idPersona))) !!}
     {!! Form::hidden('_method', 'delete') !!} {{--linea agregada  --}}
     <div class="modal-dialog">
         <div class="modal-content">
@@ -7,10 +7,10 @@
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Eliminar Cliente</h4>
+                <h4 class="modal-title">Eliminar Proveedor</h4>
             </div>
             <div class="modal-body">
-                <p>Confirme si desea eliminar Cliente</p>
+                <p>Confirme si desea eliminar Proveedor</p>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default" type="button" data-dismiss="modal">Cerrar</button>
