@@ -107,9 +107,10 @@ class IngresoController extends Controller
     {
         $ingreso=DB::table('ingreso as i')
         ->join('persona as p', 'i.idProveedor', '=', 'p.idPersona')
-        ->join('detalle_ingreso as di', 'i.idIgreso', '=', 'di.idIngreso')
-        ->select('i.idIngreso', 'i.fecha_hora', 'p.nombre', 'i.tipo_comprobante', 'i.num_comprobante', 'i.impuesto', 'i.estado', DB::raw('sum(di.cantidad*precio_compra) as total'))
-        ->where('idIngreso','=',$id)
+        ->join('detalle_ingreso as di', 'i.idIngreso', '=', 'di.idIngreso')
+        ->select('i.idIngreso', 'i.fecha_hora', 'p.nombre', 'i.tipo_comprobante', 'i.serie_comprobante', 'i.num_comprobante', 'i.impuesto', 'i.estado', DB::raw('sum(di.cantidad*di.precio_compra) as total'))
+        ->where('i.idIngreso','=',$id)
+        ->groupBy('i.idIngreso', 'i.fecha_hora', 'p.nombre', 'i.tipo_comprobante', 'serie_comprobante', 'i.num_comprobante', 'i.impuesto', 'i.estado')
         ->first();
         $detalles=DB::table('detalle_ingreso as d')
         ->join('articulo as a','a.idArticulo','=','d.idArticulo')
