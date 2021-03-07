@@ -26,7 +26,7 @@
                             <td>{{ $ingreso->tipo_comprobante .': '.$ingreso->serie_comprobante.'-'.$ingreso->num_comprobante }}</td>
                             <td>{{ $ingreso->impuesto }}</td>
                             <td>{{ $ingreso->total}}</td>
-                            <td>{{ $ingeso->estado }}</td>
+                            <td>{{ $ingreso->estado }}</td>
                             <td>
                                 <a href="{{ URL::action('IngresoController@show', $ingreso->idIngreso) }}"><button
                                         class="btn btn-primary">Detalles</button></a>

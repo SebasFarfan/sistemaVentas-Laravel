@@ -27,10 +27,10 @@ class IngresoController extends Controller
             $ingresos = DB::table('ingreso as i')
                 ->join('persona as p', 'i.idProveedor', '=', 'p.idPersona')
                 ->join('detalle_ingreso as di', 'i.idIngreso', '=', 'di.idIngreso')
-                ->select('i.idIngreso', 'i.fecha_hora', 'p.nombre', 'i.tipo_comprobante', 'i.num_comprobante', 'i.impuesto', 'i.estado', DB::raw('sum(di.cantidad*precio_compra) as total'))
+                ->select('i.idIngreso', 'i.fecha_hora', 'p.nombre', 'i.tipo_comprobante', 'i.serie_comprobante', 'i.num_comprobante', 'i.impuesto', 'i.estado', DB::raw('sum(di.cantidad*precio_compra) as total'))
                 ->where('i.num_comprobante', 'LIKE', '%' . $query . '%')
                 ->orderBy('idIngreso', 'desc')
-                ->groupBy('i.idIngreso', 'i.fecha_hora', 'p.nombre', 'i.tipo_comprobante', 'i.num_comprobante', 'i.impuesto', 'i.estado')
+                ->groupBy('i.idIngreso', 'i.fecha_hora', 'p.nombre', 'i.tipo_comprobante', 'serie_comprobante', 'i.num_comprobante', 'i.impuesto', 'i.estado')
                 ->paginate(7);
             return view('compras.ingreso.index', ["ingresos" => $ingresos, "searchText" => $query]);
         }
@@ -75,7 +75,7 @@ class IngresoController extends Controller
             $idArticulo = $request->get('idArticulo');
             $cantidad = $request->get('cantidad');
             $precio_compra = $request->get('precio_compra');
-            $precio_venta = $request->get('prcio_venta');
+            $precio_venta = $request->get('precio_venta');
 
             $cont = 0;
             while ($cont < count($idArticulo)) {
