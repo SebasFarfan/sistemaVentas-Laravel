@@ -25,12 +25,14 @@ class VentaController extends Controller
         if ($request) {
             $query = trim($request->get('searchText'));
             $ventas = DB::table('venta as v')
-                ->join('persona as p', 'v,idCliente', '=', 'p.idPersona')
-                ->join('detalle_venta as dv', 'v.idVenta', '=', 'dvIdVenta')
+                ->join('persona as p', 'v.idCliente', '=', 'p.idPersona')
+                ->join('detalle_venta as dv', 'v.idVenta', '=', 'dv.IdVenta')
                 ->select('v.idVenta', 'v.fecha_hora', 'p.nombre', 'v.tipo_comprobante', 'v.serie_comprobante', 'v.num_comprobante', 'v.impuesto', 'v.estado', 'v.total_venta')
                 ->where('v.num_comprobante', 'LIKE', '%' . $query . '%')
-                ->orderByDesc('v.idVenta')
-                ->groupBy('v.idVenta', 'v.fecha_hora', 'p.nombre', 'v.tipo_comprobante', 'v.serie_comprobante', 'v.num_comprobante', 'v.impuesto', 'v.estado')
+                // ->orderByDesc('v.idVenta')
+                ->orderBy('v.idVenta', 'desc')
+                ->groupBy('v.idVenta', 'v.fecha_hora', 'p.nombre', 'v.tipo_comprobante', 'v.serie_comprobante', 'v.num_comprobante', 'v.impuesto', 'v.estado', 'v.total_venta')
+                // ->groupBy('v.idVenta')
                 ->paginate(7);
             return view('ventas.venta.index', ["ventas" => $ventas, "searchText" => $query]);
         }
@@ -44,7 +46,7 @@ class VentaController extends Controller
     public function create()
     {
         //el precio de venta será un promedio de todos los precio con que ha ingresado ese articulo
-        $personas = DB::table('persona')->where('tipo_persona', '=', 'Cliente');
+        $personas = DB::table('persona')->where('tipo_persona', '=', 'Cliente')->get();
         $articulos = DB::table('articulo as art')
             ->join('detalle_ingreso as di', 'art.idArticulo', '=', 'di.idArticulo')
             ->select(
@@ -117,8 +119,8 @@ class VentaController extends Controller
     public function show($id)
     {
         $venta = DB::table('venta as v')
-            ->join('persona as p', 'v,idCliente', '=', 'p.idPersona')
-            ->join('detalle_venta as dv', 'v.idVenta', '=', 'dvIdVenta')
+            ->join('persona as p', 'v.idCliente', '=', 'p.idPersona')
+            ->join('detalle_venta as dv', 'v.idVenta', '=', 'dv.IdVenta')
             ->select('v.idVenta', 'v.fecha_hora', 'p.nombre', 'v.tipo_comprobante', 'v.serie_comprobante', 'v.num_comprobante', 'v.impuesto', 'v.estado', 'v.total_venta')
             ->where('v.idVenta', '=', $id)
             ->first();
